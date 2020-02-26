@@ -5,6 +5,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -30,11 +31,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //认证
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-       auth.inMemoryAuthentication()
-                .withUser("胡金龙").password("196819").roles("vip2","vip3")
+       auth.inMemoryAuthentication().passwordEncoder(new BCryptPasswordEncoder())
+                .withUser("胡金龙").password(new BCryptPasswordEncoder().encode("196819")).roles("vip2","vip3")
                 .and()
-                .withUser("root").password("196819").roles("vip1","vip2","vip3")
+                .withUser("root").password(new BCryptPasswordEncoder().encode("196819")).roles("vip1","vip2","vip3")
                 .and()
-                .withUser("guest").password("196819").roles("vip1");
+                .withUser("guest").password(new BCryptPasswordEncoder().encode("196819")).roles("vip1");
     }
 }
